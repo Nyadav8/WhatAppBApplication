@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	background-color: #eaf0f7;
+	font-family: "Inter", sans-serif;
+	transition: all 0.5s linear;
+}
+input:focus,
+textarea:focus,
+select:focus {
+	outline: none;
+}
+.bgOnProfileButton {
+	border-radius: 100%;
+	background-color: #c0dcf2;
+}
+.panelShadow {
+	box-shadow: 0px 0px 25px 2px rgba(0, 0, 0, 0.1);
+}
+.inputShadow {
+	box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+}
+.removeScrollbar::-webkit-scrollbar {
+	display: none;
+}
+.bgOnChatPanel {
+	background-color: #d5e6f5;
+}
+.bgOnActiveChat {
+	background-color: #dddfcd;
+}
+.bgOnMessage {
+	background-color: #dad9d9;
+}
+.bgOnRecentChat {
+	background-color: #d5e0f1;
+}
+.img-wrap {
+	position: relative;
+	width: 100px;
+	overflow: hidden;
+	border-radius: 50%;
+}
+.uploadbutton {
+	position: absolute;
+	padding: 30px;
+	color: #fff;
+	width: 100px;
+	opacity: 0;
+	transition: 0.25s all ease;
+	background: #000000;
+}
+.img-upload:hover .uploadbutton {
+	opacity: 1;
+}
+.myselect {
+	border-right: 16px solid transparent;
+}
+.crossbutton3 {
+	background-color: white;
+	color: black;
+	border-radius: 100%;
+}
+.bgOnButton {
+	background-color: #ffc632;
+}
+.bgOnButton2 {
+	background-color: #2a67b2;
+}
+.fontColorOnButton {
+	color: #fff;
+}
+.lineColor {
+	border-color: #a0acb7;
+}
+.bgOnSpeakerPhone {
+	background-color: #d9d9d9;
+}
+.fontColorOnSpeakerPhone {
+	color: #a3a3a3;
+}
