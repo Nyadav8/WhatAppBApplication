@@ -5,15 +5,18 @@ const fs = require("fs");
 const crypto = require("crypto");
 
 const sendAnyMessage = async (req, messageBody, next) => {
+	console.log(process.env.WABAPI, req.session.phoneNumberID, messageBody, req.session.accessToken);
 	await axios
 		.post(`${process.env.WABAPI}/${req.session.phoneNumberID}/messages`, messageBody, {
 			headers: {
-				Authorization: "Bearer " + req.session.accessToken,
-			},
+				Authorization: "Bearer " + req.session.accessToken
+			}
 		})
 		.then((res) => {
+			console.log("RESPONSE", res);
 			next(res);
-		});
+		})
+		.catch((err) => console.log(err));
 };
 const uploadMedia = async (req, file, type, next) => {
 	await axios
@@ -22,13 +25,13 @@ const uploadMedia = async (req, file, type, next) => {
 			{
 				messaging_product: "whatsapp",
 				file,
-				type,
+				type
 			},
 			{
 				headers: {
 					Authorization: "Bearer " + req.session.accessToken,
-					"Content-Type": "multipart/form-data",
-				},
+					"Content-Type": "multipart/form-data"
+				}
 			}
 		)
 		.then((res) => {
@@ -55,13 +58,13 @@ const storeMessage = async (req, payload, wares, next) => {
 			message: payload.messagePayload,
 			messageType: payload.messageType,
 			sender: req.session.phoneNumberID,
-			receiver: payload.contactNumber,
+			receiver: payload.contactNumber
 		};
 		const initVector = crypto.randomBytes(16);
 		const securityKey = crypto.randomBytes(32);
 		const count = await Message.find({
 			user_wabaID: req.session.wabaID,
-			phoneNumber: payload.contactNumber,
+			phoneNumber: payload.contactNumber
 		}).count();
 		try {
 			const cipher = crypto.createCipheriv(process.env.ALGORITHM, securityKey, initVector);
@@ -74,9 +77,9 @@ const storeMessage = async (req, payload, wares, next) => {
 				sent_or_received: "sent",
 				salt: {
 					vectoriv: initVector.toString("hex"),
-					vectorkey: securityKey.toString("hex"),
+					vectorkey: securityKey.toString("hex")
 				},
-				count: count,
+				count: count
 			});
 			message.save(async (err, newMessage) => {
 				if (err) {
@@ -104,7 +107,7 @@ const parseForm = (req, next) => {
 	var form = formidable({
 		keepExtensions: true,
 		uploadDir: __dirname + "/assets/",
-		allowEmptyFiles: false,
+		allowEmptyFiles: false
 	});
 	form.on("file", (field, file) => {
 		form.filename = () => {
@@ -123,8 +126,8 @@ const parseForm = (req, next) => {
 					file: {
 						file,
 						name: files?.file?.originalFilename,
-						type: files?.file?.mimetype || "",
-					},
+						type: files?.file?.mimetype || ""
+					}
 				});
 			} catch (e) {
 				next(false);
@@ -138,23 +141,23 @@ exports.sendTemplate = async (req, phoneNumber, next) => {
 		to: phoneNumber,
 		type: "template",
 		template: {
-			name: "message",
-			language: { code: "en_US" },
-		},
+			name: "hello_world",
+			language: { code: "en_US" }
+		}
 	};
 	try {
 		await sendAnyMessage(req, msgbody, (wares) => {
 			next(wares);
 		});
 	} catch (e) {
-		console.log(e);
+		console.log("error");
 	}
 };
 exports.sendMessage = async (req, res) => {
 	if (!req.session.phoneNumberID || !req.session.wabaID) {
 		return res.status(401).json({
 			stat: "error",
-			message: "User unauthorized.",
+			message: "User unauthorized."
 		});
 	}
 
@@ -163,7 +166,7 @@ exports.sendMessage = async (req, res) => {
 		recipient_type: "individual",
 		to: req.body.contactNumber,
 		messageType: req.body.messageType,
-		text: req.body.messagePayload.text,
+		text: req.body.messagePayload.text
 	};
 	try {
 		await sendAnyMessage(req, messageBody, (wares) => {
@@ -172,19 +175,19 @@ exports.sendMessage = async (req, res) => {
 				{
 					messagePayload: req.body.messagePayload,
 					messageType: req.body.messageType,
-					contactNumber: req.body.contactNumber,
+					contactNumber: req.body.contactNumber
 				},
 				wares,
 				(status, statusCode, resData) => {
 					if (!status) {
 						return res.status(statusCode).json({
 							stat: "error",
-							message: "Something went wrong!",
+							message: "Something went wrong!"
 						});
 					} else {
 						return res.json({
 							stat: "success",
-							message: resData,
+							message: resData
 						});
 					}
 				}
@@ -193,7 +196,7 @@ exports.sendMessage = async (req, res) => {
 	} catch (e) {
 		return res.status(e?.response?.status || 500).json({
 			stat: "error",
-			message: e?.response?.statusText || "Something went wrong.",
+			message: e?.response?.statusText || "Something went wrong."
 		});
 	}
 };
@@ -202,28 +205,27 @@ exports.sendFileMessage = async (req, res) => {
 	if (!req.session.phoneNumberID || !req.session.wabaID) {
 		return res.status(401).json({
 			stat: "error",
-			message: "User unauthorized.",
+			message: "User unauthorized."
 		});
 	}
 	parseForm(req, async (status, data) => {
 		if (!status)
 			return res.status(400).json({
 				stat: "error",
-				message: "File error.",
+				message: "File error."
 			});
 		else {
 			let messageBody = {
 				messaging_product: "whatsapp",
 				recipient_type: "individual",
 				to: data.fields.contactNumber,
-				type: data.fields.messageType,
+				type: data.fields.messageType
 			};
-
 			await uploadMedia(req, data.file.file, data.file?.type, async (status, wares) => {
 				if (!status || !wares || wares.status != 200) {
 					return res.status((wares && wares.status) || 500).json({
 						stat: "error",
-						message: (wares && wares.statusText) || "Something went wrong!",
+						message: (wares && wares.statusText) || "Something went wrong!"
 					});
 				}
 				fileData(wares.data.id, () => {});
@@ -231,8 +233,8 @@ exports.sendFileMessage = async (req, res) => {
 					messageBody = {
 						...messageBody,
 						image: {
-							id: wares.data.id,
-						},
+							id: wares.data.id
+						}
 					};
 				else
 					messageBody = {
@@ -240,8 +242,8 @@ exports.sendFileMessage = async (req, res) => {
 						document: {
 							filename: data.file?.name || "document",
 							caption: data.fields?.caption || "",
-							id: wares.data.id,
-						},
+							id: wares.data.id
+						}
 					};
 				await sendAnyMessage(req, messageBody, (wares) => {
 					storeMessage(
@@ -249,19 +251,19 @@ exports.sendFileMessage = async (req, res) => {
 						{
 							messagePayload: messageBody,
 							contactNumber: data.fields.contactNumber,
-							messageType: data.fields.messageType,
+							messageType: data.fields.messageType
 						},
 						wares,
 						(status, statusCode, resData) => {
 							if (!status) {
 								return res.status(statusCode).json({
 									stat: "error",
-									message: "Something went wrong!",
+									message: "Something went wrong!"
 								});
 							} else {
 								return res.json({
 									stat: "success",
-									message: resData,
+									message: resData
 								});
 							}
 						}
@@ -271,7 +273,7 @@ exports.sendFileMessage = async (req, res) => {
 				console.log(err);
 				return res.status(500).json({
 					stat: "error",
-					message: "something went wrong.",
+					message: "something went wrong."
 				});
 			});
 		}
@@ -291,32 +293,32 @@ exports.getMessages = async (req, res) => {
 					if (dres.type == "image") {
 						arr.push({
 							message: {
-								image: dres.image,
+								image: dres.image
 							},
 							messageType: dres.type,
 							time: totaltime,
 							count: msg.count,
-							type: "received",
+							type: "received"
 						});
 					} else if (dres.type == "document") {
 						arr.push({
 							message: {
-								document: dres.document,
+								document: dres.document
 							},
 							messageType: dres.type,
 							time: totaltime,
 							count: msg.count,
-							type: "received",
+							type: "received"
 						});
 					} else if (dres.type == "text") {
 						arr.push({
 							message: {
-								text: dres.text,
+								text: dres.text
 							},
 							messageType: dres.type,
 							time: totaltime,
 							count: msg.count,
-							type: "received",
+							type: "received"
 						});
 					}
 				} else {
@@ -325,7 +327,7 @@ exports.getMessages = async (req, res) => {
 						messageType: dres.messageType,
 						time: totaltime,
 						count: msg.count,
-						type: "sent",
+						type: "sent"
 					});
 				}
 			});
@@ -335,12 +337,12 @@ exports.getMessages = async (req, res) => {
 		});
 		return res.json({
 			stat: "success",
-			messages: arr,
+			messages: arr
 		});
 	} catch (err) {
 		res.json({
 			stat: "error",
-			message: err,
+			message: err
 		});
 	}
 };
