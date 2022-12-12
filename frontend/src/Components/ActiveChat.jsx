@@ -1,5 +1,4 @@
-import React from "react";
-import { SpeakerphoneIcon } from "@heroicons/react/solid";
+import { SpeakerWaveIcon } from "@heroicons/react/24/solid/SpeakerWaveIcon";
 export default function ActiveChat({ latestChat }) {
 	var regExp = /[a-zA-Z]/g;
 	return (
@@ -7,7 +6,7 @@ export default function ActiveChat({ latestChat }) {
 			{regExp.test(latestChat.name) ? (
 				<div className="flex rounded-3xl bgOnActiveChat items-center pl-6 py-3">
 					<figure className="w-14 h-14 bgOnSpeakerPhone mr-3 flex justify-center items-center rounded-full">
-						<SpeakerphoneIcon className="h-7 w-7 fontColorOnSpeakerPhone inline" />
+						<SpeakerWaveIcon className="h-7 w-7 fontColorOnSpeakerPhone inline" />
 					</figure>
 					<div className="text-sm">
 						<p className="text-xs mb-2">{latestChat?.data[0]?.profile?.fname}</p>

@@ -1,5 +1,4 @@
-import React from "react";
-import { SpeakerphoneIcon } from "@heroicons/react/solid";
+import { SpeakerWaveIcon } from "@heroicons/react/24/solid/SpeakerWaveIcon";
 export default function RecentChat({ chats, toggle, setToggle }) {
 	var regExp = /[a-zA-Z]/g;
 	return (
@@ -25,7 +24,7 @@ export default function RecentChat({ chats, toggle, setToggle }) {
 									}}
 								>
 									<figure className="w-14 h-14 bgOnSpeakerPhone mr-3 flex justify-center items-center rounded-full">
-										<SpeakerphoneIcon className="h-7 w-7 fontColorOnSpeakerPhone inline" />
+										<SpeakerWaveIcon className="h-7 w-7 fontColorOnSpeakerPhone inline" />
 									</figure>
 									<div className="text-sm">
 										<p className="text-xs mb-2">{chat.name.slice(2)}</p>

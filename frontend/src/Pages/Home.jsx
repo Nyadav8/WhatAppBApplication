@@ -1,4 +1,3 @@
-import React from "react";
 import Base from "../Base";
 import ChatSection from "../Components/ChatSection";
 import RecentChat from "../Components/RecentChat";

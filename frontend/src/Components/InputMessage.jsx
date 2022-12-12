@@ -1,6 +1,6 @@
-import React, { useState, useRef } from "react";
-import { PaperClipIcon } from "@heroicons/react/outline";
-import { PaperAirplaneIcon } from "@heroicons/react/solid";
+import { useState, useRef } from "react";
+import { PaperClipIcon } from "@heroicons/react/24/outline/PaperClipIcon";
+import { PaperAirplaneIcon } from "@heroicons/react/24/solid/PaperAirplaneIcon";
 import { toast } from "react-toastify";
 import { newMessage, newFileMessage } from "../data/Messages";
 import { searchContact } from "../data/Contacts";

@@ -1,4 +1,3 @@
-import React from "react";
 import InputMessage from "./InputMessage";
 import Messages from "./Messages";
 import ActiveChat from "./ActiveChat";

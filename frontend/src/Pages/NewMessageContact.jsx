@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { PlusIcon } from "@heroicons/react/solid";
+import { PlusIcon } from "@heroicons/react/24/solid/PlusIcon";
 import Contact from "../Components/Contact";
 import Base from "../Base";
 import { toast } from "react-toastify";
