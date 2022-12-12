@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -79,7 +79,7 @@ export default function BusinessProfile() {
 						<div className="flex flex-row justify-between items-center mb-6">
 							<div className="flex flex-col">
 								<label className="text-sm font-normal mb-1">Name</label>
-								<input className="h-8 mb-4 text-sm font-medium py-3" type="text" id="businessname" defaultValue="TallyXWhatsApp" readOnly />
+								<input className="h-8 mb-4 text-sm font-medium py-3" type="text" id="businessname" defaultValue="WhatsApp" readOnly />
 								<label className="text-sm font-normal mb-1">Mobile Number</label>
 								<input className="h-8 text-sm font-medium py-3" type="text" id="mobilenumber" defaultValue="+15550843602" readOnly />
 							</div>

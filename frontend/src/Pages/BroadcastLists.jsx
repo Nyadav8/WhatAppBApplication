@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { PlusIcon } from "@heroicons/react/solid";
+import { PlusIcon } from "@heroicons/react/24/solid/PlusIcon";
 import List from "../Components/List";
 import Base from "../Base";
 export default function BroadcastLists({ ListOfBroadcastLists }) {

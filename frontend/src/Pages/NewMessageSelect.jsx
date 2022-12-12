@@ -1,5 +1,5 @@
-import React from "react";
-import { UserIcon, UserGroupIcon } from "@heroicons/react/solid";
+import { UserIcon } from "@heroicons/react/24/solid/UserIcon";
+import { UserGroupIcon } from "@heroicons/react/24/solid/UserGroupIcon";
 import { Link } from "react-router-dom";
 import Base from "../Base";
 export default function NewMessageSelect() {

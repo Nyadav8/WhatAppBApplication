@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import List from "../Components/List";
 import { Link } from "react-router-dom";
 import Base from "../Base";
-import { PlusIcon } from "@heroicons/react/solid";
+import { PlusIcon } from "@heroicons/react/24/solid/PlusIcon";
 import { toast } from "react-toastify";
 import { deleteBroadcastList } from "../data/BroadcastLists";
 export default function DeleteBroadcastLists({ ListOfBroadcastLists, crudBroadcastList, setCrudBroadcastList, toggle, setToggle }) {

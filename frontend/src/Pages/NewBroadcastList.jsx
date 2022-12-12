@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
-import { PlusIcon } from "@heroicons/react/solid";
+import { PlusIcon } from "@heroicons/react/24/solid/PlusIcon";
 import { newBroadcastList } from "../data/BroadcastLists";
 import Contact from "../Components/Contact";
 import Base from "../Base";

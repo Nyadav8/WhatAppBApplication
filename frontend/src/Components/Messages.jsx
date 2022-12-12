@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 export default function Messages({ latestChat, toggle }) {
 	var regExp = /[a-zA-Z]/g;
 	const scrollToBottom = useRef(null);

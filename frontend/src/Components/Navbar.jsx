@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserCircleIcon } from "@heroicons/react/solid";
+import { UserCircleIcon } from "@heroicons/react/24/solid/UserCircleIcon";
 import { signout } from "../helpers/auth/authentication";
 import { toast } from "react-toastify";
-import Logo from "../Assets/TallyXWhatsApp.svg";
+import Logo from "../Assets/WhatsApp.svg";
 import { useCookies } from "react-cookie";
 export default function Navbar() {
 	const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -31,7 +31,7 @@ export default function Navbar() {
 				<div className="relative flex items-center justify-between h-16">
 					<div className="flex-shrink-0 flex items-center">
 						<Link to="/">
-							<img className="w-auto h-10" src={Logo} alt="TallyXWhatsApp Logo" />
+							<img className="w-auto h-10" src={Logo} alt="WhatsApp Logo" />
 						</Link>
 					</div>
 					<div className="block ml-6">
